@@ -1,0 +1,42 @@
+{
+  "name": "secvault",
+  "version": "0.1.0",
+  "description": "Secure Vault Application",
+  "main": "out/main/main.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "lint": "eslint src --ext .ts,.tsx",
+    "package": "npm run build && electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "electron": "^41.1.1",
+    "electron-builder": "^26.8.1",
+    "electron-vite": "^2.3.0",
+    "sass": "^1.80.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.0"
+  },
+  "build": {
+    "appId": "com.secvault.app",
+    "productName": "SecVault",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*"
+    ]
+  }
+}
