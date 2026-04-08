@@ -1,4 +1,4 @@
-import type { VaultResult, VaultSaveArgs, AppSettings } from '../models'
+import type { VaultResult, VaultSaveArgs, AppSettings, RecentVault } from '../models'
 
 export {}
 
@@ -18,6 +18,8 @@ declare global {
       getVaultDefaultDir: () => Promise<string>
       getSettings: () => Promise<AppSettings>
       setSettings: (key: string, value: boolean) => Promise<void>
+      getRecentVaults: () => Promise<RecentVault[]>
+      addRecentVault: (args: { filePath: string; name: string }) => Promise<void>
     }
   }
 }

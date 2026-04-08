@@ -1,4 +1,4 @@
-import type { VaultResult, VaultSaveArgs, AppSettings } from '../models'
+import type { VaultResult, VaultSaveArgs, AppSettings, RecentVault } from '../models'
 
 /**
  * IpcService
@@ -58,6 +58,14 @@ export class IpcService {
 
   setSettings(key: keyof AppSettings, value: boolean): Promise<void> {
     return window.electronAPI.setSettings(key, value)
+  }
+
+  getRecentVaults(): Promise<RecentVault[]> {
+    return window.electronAPI.getRecentVaults()
+  }
+
+  addRecentVault(args: { filePath: string; name: string }): Promise<void> {
+    return window.electronAPI.addRecentVault(args)
   }
 }
 

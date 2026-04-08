@@ -1,42 +1,36 @@
 import { useState, useCallback, useMemo } from 'react'
 import { randomUUID } from '../utils/uuid'
-import type { Credential, SubVault, VaultResult } from '../models'
+import type { Credential, SubVault, SubVaultItem, SubVaultType, VaultResult } from '../models'
 import { DEFAULT_SUBVAULT_NAME } from '../models'
 
 interface UseVaultPageResult {
   // Sub-vault management
   subVaults: SubVault[]
   activeSubVaultId: string
+  activeSubVault: SubVault
   setActiveSubVaultId: (id: string) => void
-  addSubVault: (name: string) => void
+  addSubVault: (name: string, type: SubVaultType) => void
   renameSubVault: (id: string, name: string) => void
   deleteSubVault: (id: string) => void
 
-  // Credential list (scoped to active sub-vault, filtered by search)
-  search: string
-  setSearch: (q: string) => void
-  filteredCredentials: Credential[]
-
-  // Credential detail
-  selectedCredentialId: string | null
-  selectedCredential: Credential | null
-  selectCredential: (id: string | null) => void
-  addCredential: (credential: Credential) => void
-  updateCredential: (credential: Credential) => void
-  deleteCredential: (id: string) => void
+  // Generic item CRUD (scoped to active sub-vault)
+  addItem: (item: SubVaultItem) => void
+  updateItem: (item: SubVaultItem & { id: string }) => void
+  deleteItem: (id: string) => void
 }
 
 function buildInitialSubVaults(result: VaultResult): SubVault[] {
   // v1.1+ files store sub-vaults directly in the payload
   if (result.subVaults && result.subVaults.length > 0) {
-    return result.subVaults
+    return result.subVaults as SubVault[]
   }
-  // v1.0 files have a flat credentials list — wrap in default sub-vault
+  // v1.0 files have a flat credentials list — wrap in default credential sub-vault
   return [
     {
       id: randomUUID(),
       name: DEFAULT_SUBVAULT_NAME,
-      credentials: result.credentials,
+      type: 'credentials',
+      credentials: result.credentials as Credential[],
     },
   ]
 }
@@ -44,12 +38,13 @@ function buildInitialSubVaults(result: VaultResult): SubVault[] {
 export function useVaultPage(vault: VaultResult): UseVaultPageResult {
   const [subVaults, setSubVaults] = useState<SubVault[]>(() => buildInitialSubVaults(vault))
   const [activeSubVaultId, setActiveSubVaultId] = useState<string>(() => subVaults[0].id)
-  const [search, setSearch] = useState('')
-  const [selectedCredentialId, setSelectedCredentialId] = useState<string | null>(null)
 
   // ── Sub-vault actions ──────────────────────────────────────────────────────
-  const addSubVault = useCallback((name: string) => {
-    const newSv: SubVault = { id: randomUUID(), name, credentials: [] }
+  const addSubVault = useCallback((name: string, type: SubVaultType) => {
+    const newSv: SubVault =
+      type === 'credentials'
+        ? { id: randomUUID(), name, type: 'credentials', credentials: [] }
+        : { id: randomUUID(), name, type: type as Exclude<SubVaultType, 'credentials'>, items: [] as never[] }
     setSubVaults(prev => [...prev, newSv])
   }, [])
 
@@ -60,38 +55,35 @@ export function useVaultPage(vault: VaultResult): UseVaultPageResult {
   const deleteSubVault = useCallback((id: string) => {
     setSubVaults(prev => {
       const next = prev.filter(sv => sv.id !== id)
-      // Keep at least one sub-vault
       if (next.length === 0) return prev
-      // If deleting the active one, switch to the first remaining
       if (id === activeSubVaultId) setActiveSubVaultId(next[0].id)
       return next
     })
   }, [activeSubVaultId])
 
-  // ── Credential actions (scoped to active sub-vault) ───────────────────────
-  const addCredential = useCallback((credential: Credential) => {
-    setSubVaults(prev => prev.map(sv =>
-      sv.id === activeSubVaultId
-        ? { ...sv, credentials: [...sv.credentials, credential] }
-        : sv
-    ))
+  // ── Generic item CRUD (scoped to active sub-vault) ────────────────────────
+  const addItem = useCallback((item: SubVaultItem) => {
+    setSubVaults(prev => prev.map(sv => {
+      if (sv.id !== activeSubVaultId) return sv
+      if (sv.type === 'credentials') return { ...sv, credentials: [...sv.credentials, item as Credential] } as SubVault
+      return { ...sv, items: [...sv.items, item] } as SubVault
+    }))
   }, [activeSubVaultId])
 
-  const updateCredential = useCallback((credential: Credential) => {
-    setSubVaults(prev => prev.map(sv =>
-      sv.id === activeSubVaultId
-        ? { ...sv, credentials: sv.credentials.map(c => c.id === credential.id ? credential : c) }
-        : sv
-    ))
+  const updateItem = useCallback((item: SubVaultItem & { id: string }) => {
+    setSubVaults(prev => prev.map(sv => {
+      if (sv.id !== activeSubVaultId) return sv
+      if (sv.type === 'credentials') return { ...sv, credentials: sv.credentials.map(c => c.id === item.id ? item as Credential : c) } as SubVault
+      return { ...sv, items: sv.items.map(i => i.id === item.id ? item : i) } as SubVault
+    }))
   }, [activeSubVaultId])
 
-  const deleteCredential = useCallback((id: string) => {
-    setSubVaults(prev => prev.map(sv =>
-      sv.id === activeSubVaultId
-        ? { ...sv, credentials: sv.credentials.filter(c => c.id !== id) }
-        : sv
-    ))
-    setSelectedCredentialId(prev => prev === id ? null : prev)
+  const deleteItem = useCallback((id: string) => {
+    setSubVaults(prev => prev.map(sv => {
+      if (sv.id !== activeSubVaultId) return sv
+      if (sv.type === 'credentials') return { ...sv, credentials: sv.credentials.filter(c => c.id !== id) } as SubVault
+      return { ...sv, items: sv.items.filter(i => i.id !== id) } as SubVault
+    }))
   }, [activeSubVaultId])
 
   // ── Derived state ──────────────────────────────────────────────────────────
@@ -100,32 +92,16 @@ export function useVaultPage(vault: VaultResult): UseVaultPageResult {
     [subVaults, activeSubVaultId],
   )
 
-  const filteredCredentials = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    if (!q) return activeSubVault.credentials
-    return activeSubVault.credentials.filter(c => c.label.toLowerCase().includes(q))
-  }, [activeSubVault, search])
-
-  const selectedCredential = useMemo(
-    () => filteredCredentials.find(c => c.id === selectedCredentialId) ?? null,
-    [filteredCredentials, selectedCredentialId],
-  )
-
   return {
     subVaults,
     activeSubVaultId,
+    activeSubVault,
     setActiveSubVaultId,
     addSubVault,
     renameSubVault,
     deleteSubVault,
-    search,
-    setSearch,
-    filteredCredentials,
-    selectedCredentialId,
-    selectedCredential,
-    selectCredential: setSelectedCredentialId,
-    addCredential,
-    updateCredential,
-    deleteCredential,
+    addItem,
+    updateItem,
+    deleteItem,
   }
 }

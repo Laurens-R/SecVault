@@ -42,13 +42,19 @@ const OpenVaultIcon = (): JSX.Element => (
   </svg>
 )
 
+const RecentVaultIcon = (): JSX.Element => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z" />
+  </svg>
+)
+
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
 function HomePage({ onVaultOpen }: { onVaultOpen: (v: VaultResult, password: string) => void }): JSX.Element {
   const {
-    startCreate, startOpen, submitPassword, cancelModal,
-    modalState, isLoading, error, defaultDir, lastResult, lastPassword,
+    startCreate, startOpen, startOpenRecent, submitPassword, cancelModal,
+    modalState, isLoading, error, defaultDir, lastResult, lastPassword, recentVaults,
   } = useVaultActions()
 
   useEffect(() => {
@@ -78,6 +84,28 @@ function HomePage({ onVaultOpen }: { onVaultOpen: (v: VaultResult, password: str
           disabled={isLoading || modalState !== null}
         />
       </div>
+
+      {recentVaults.length > 0 && (
+        <div className={styles.recentSection}>
+          <h2 className={styles.recentTitle}>Recently Opened</h2>
+          <ul className={styles.recentList}>
+            {recentVaults.map(rv => (
+              <li key={rv.filePath}>
+                <button
+                  className={styles.recentItem}
+                  onClick={() => startOpenRecent(rv.filePath, rv.name)}
+                  disabled={isLoading || modalState !== null}
+                  title={rv.filePath}
+                >
+                  <RecentVaultIcon />
+                  <span className={styles.recentName}>{rv.name}</span>
+                  <span className={styles.recentPath}>{rv.filePath}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Page-level error (dialog failures, not password errors) */}
       {!modalState && error && <p className={styles.error}>{error}</p>}

@@ -1,0 +1,318 @@
+@use '../../styles/variables' as *;
+
+// ── shared with NotePanel pattern ─────────────────────────────────────────────
+.listPanel {
+  width: $width-list-panel;
+  flex-shrink: 0;
+  background-color: $color-panel-bg;
+  border-right: 1px solid $color-divider;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid $color-divider;
+}
+
+.searchWrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  > svg {
+    position: absolute;
+    left: 0.6rem;
+    color: $color-text-muted;
+    pointer-events: none;
+  }
+}
+
+.search {
+  width: 100%;
+  background-color: $color-input-bg;
+  border: 1px solid $color-card-border;
+  border-radius: 6px;
+  color: $color-text;
+  font-size: $font-size-sm;
+  padding: 0.4rem 0.6rem 0.4rem 2rem;
+  outline: none;
+  transition: border-color 0.15s;
+
+  &:focus { border-color: $color-accent; }
+  &::placeholder { color: $color-text-muted; }
+  &::-webkit-search-cancel-button { display: none; }
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: $color-accent;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.85; }
+}
+
+.list {
+  flex: 1;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0.375rem 0;
+}
+
+.empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+}
+
+.item {
+  padding: 0 0.5rem;
+
+  &.active .itemBtn {
+    background-color: $color-item-active;
+    .label { color: $color-accent; }
+  }
+}
+
+.itemBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.6rem 0.625rem;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  color: $color-text;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  text-align: left;
+
+  &:hover { background-color: $color-item-hover; }
+}
+
+.iconWrap {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background-color: rgba(79, 156, 249, 0.15);
+  color: $color-accent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  color: $color-heading;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sub {
+  font-size: $font-size-xs;
+  color: $color-text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ── Detail ────────────────────────────────────────────────────────────────────
+.detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.emptyDetail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  color: $color-text-muted;
+
+  p { font-size: $font-size-sm; }
+}
+
+.detailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid $color-divider;
+  flex-shrink: 0;
+}
+
+.detailTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: $color-heading;
+}
+
+.detailActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: none;
+  border: 1px solid rgba(229, 62, 62, 0.3);
+  border-radius: 6px;
+  color: $color-error;
+  font-size: $font-size-sm;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.1s;
+
+  &:hover { background-color: rgba(229, 62, 62, 0.1); }
+}
+
+.cancelBtn {
+  background: none;
+  border: 1px solid $color-card-border;
+  border-radius: 6px;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+
+  &:hover { border-color: $color-text; color: $color-text; }
+}
+
+.form {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+
+  > * { flex: 1; }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 1.25rem;
+}
+
+.fieldLabel {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+.required {
+  color: $color-error;
+  margin-left: 2px;
+}
+
+.keyActions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: $color-text-muted;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.1s, background-color 0.1s;
+
+  &:hover { color: $color-accent; background-color: $color-item-hover; }
+}
+
+.copied { color: #2ecc71 !important; }
+
+.input {
+  background-color: $color-input-bg;
+  border: 1px solid $color-card-border;
+  border-radius: 6px;
+  color: $color-text;
+  font-size: $font-size-base;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  font-family: inherit;
+
+  &:focus { border-color: $color-accent; }
+  &::placeholder { color: $color-text-muted; font-style: italic; }
+
+  &[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(0.6);
+    cursor: pointer;
+  }
+}
+
+.mono { font-family: 'Courier New', monospace; letter-spacing: 0.05em; }
+.textarea { resize: vertical; min-height: 80px; }
+
+.error {
+  font-size: $font-size-sm;
+  color: $color-error;
+}
+
+.saveBtn {
+  align-self: flex-start;
+  background-color: $color-accent;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: $font-size-base;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover { opacity: 0.85; }
+}

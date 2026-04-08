@@ -1,10 +1,13 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
-import type { Credential, SubVault, VaultResult } from '../../models'
+import type { SubVault, VaultResult } from '../../models'
 import { useVaultPage } from '../../hooks'
 import { vaultService } from '../../services'
 import SubVaultSidebar from './SubVaultSidebar'
-import CredentialList from './CredentialList'
-import CredentialDetail from './CredentialDetail'
+import CredentialPanel from './CredentialPanel'
+import NotePanel from './NotePanel'
+import LicensePanel from './LicensePanel'
+import ContactPanel from './ContactPanel'
+import BankAccountPanel from './BankAccountPanel'
 import styles from './VaultPage.module.scss'
 
 interface VaultPageProps {
@@ -19,20 +22,15 @@ function VaultPage({ vault, password, onLock }: VaultPageProps): JSX.Element {
   const {
     subVaults,
     activeSubVaultId,
+    activeSubVault,
     setActiveSubVaultId,
     addSubVault,
     deleteSubVault,
-    search,
-    setSearch,
-    filteredCredentials,
-    selectedCredentialId,
-    selectCredential,
-    addCredential,
-    updateCredential,
-    deleteCredential,
+    addItem,
+    updateItem,
+    deleteItem,
   } = useVaultPage(vault)
 
-  const [isNew, setIsNew] = useState(false)
   const [saveStatus, setSaveStatus] = useState<SaveStatus>('idle')
   const [lockPending, setLockPending] = useState(false)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -70,7 +68,6 @@ function VaultPage({ vault, password, onLock }: VaultPageProps): JSX.Element {
     void latestSave.current!(subVaults)
   }, [subVaults])
 
-  // ── Lock handling with unsaved-changes guard ───────────────────────────────
   const handleLockClick = useCallback(() => {
     if (saveStatus === 'saving' || saveStatus === 'error') {
       setLockPending(true)
@@ -78,39 +75,6 @@ function VaultPage({ vault, password, onLock }: VaultPageProps): JSX.Element {
       onLock()
     }
   }, [saveStatus, onLock])
-
-  const handleAddNew = useCallback(() => {
-    selectCredential(null)
-    setIsNew(true)
-  }, [selectCredential])
-
-  const handleSelect = useCallback((id: string) => {
-    setIsNew(false)
-    selectCredential(id)
-  }, [selectCredential])
-
-  const handleSave = useCallback((credential: Credential) => {
-    if (isNew) {
-      addCredential(credential)
-    } else {
-      updateCredential(credential)
-    }
-    setIsNew(false)
-    selectCredential(credential.id)
-  }, [isNew, addCredential, updateCredential, selectCredential])
-
-  const handleDelete = useCallback((id: string) => {
-    deleteCredential(id)
-    setIsNew(false)
-    selectCredential(null)
-  }, [deleteCredential, selectCredential])
-
-  const handleCancel = useCallback(() => {
-    setIsNew(false)
-    selectCredential(null)
-  }, [selectCredential])
-
-  const selectedCredential = filteredCredentials.find(c => c.id === selectedCredentialId) ?? null
 
   return (
     <div className={styles.page}>
@@ -138,22 +102,46 @@ function VaultPage({ vault, password, onLock }: VaultPageProps): JSX.Element {
           onDelete={deleteSubVault}
         />
 
-        <CredentialList
-          credentials={filteredCredentials}
-          selectedId={selectedCredentialId}
-          search={search}
-          onSearchChange={setSearch}
-          onSelect={handleSelect}
-          onAddNew={handleAddNew}
-        />
-
-        <CredentialDetail
-          credential={selectedCredential}
-          isNew={isNew}
-          onSave={handleSave}
-          onDelete={handleDelete}
-          onCancel={handleCancel}
-        />
+        {activeSubVault.type === 'credentials' && (
+          <CredentialPanel
+            credentials={activeSubVault.credentials}
+            onAdd={addItem}
+            onUpdate={updateItem}
+            onDelete={deleteItem}
+          />
+        )}
+        {activeSubVault.type === 'notes' && (
+          <NotePanel
+            notes={activeSubVault.items}
+            onAdd={addItem}
+            onUpdate={updateItem}
+            onDelete={deleteItem}
+          />
+        )}
+        {activeSubVault.type === 'licenses' && (
+          <LicensePanel
+            licenses={activeSubVault.items}
+            onAdd={addItem}
+            onUpdate={updateItem}
+            onDelete={deleteItem}
+          />
+        )}
+        {activeSubVault.type === 'contacts' && (
+          <ContactPanel
+            contacts={activeSubVault.items}
+            onAdd={addItem}
+            onUpdate={updateItem}
+            onDelete={deleteItem}
+          />
+        )}
+        {activeSubVault.type === 'bank' && (
+          <BankAccountPanel
+            accounts={activeSubVault.items}
+            onAdd={addItem}
+            onUpdate={updateItem}
+            onDelete={deleteItem}
+          />
+        )}
       </div>
 
       {lockPending && (

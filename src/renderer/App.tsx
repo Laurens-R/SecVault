@@ -19,14 +19,19 @@ function App(): JSX.Element {
       <main className={styles.content}>
         {settingsOpen ? (
           <SettingsPage onBack={() => setSettingsOpen(false)} />
-        ) : activeSession ? (
-          <VaultPage
-            vault={activeSession.vault}
-            password={activeSession.password}
-            onLock={() => setActiveSession(null)}
-          />
-        ) : (
+        ) : !activeSession ? (
           <HomePage onVaultOpen={(v, p) => setActiveSession({ vault: v, password: p })} />
+        ) : null}
+
+        {/* Keep VaultPage mounted while a session is active so its state survives settings navigation */}
+        {activeSession && (
+          <div style={{ display: settingsOpen ? 'none' : 'contents' }}>
+            <VaultPage
+              vault={activeSession.vault}
+              password={activeSession.password}
+              onLock={() => setActiveSession(null)}
+            />
+          </div>
         )}
       </main>
     </div>

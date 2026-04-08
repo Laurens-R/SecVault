@@ -6,6 +6,38 @@ import { encryptPayload, decryptPayload, type VaultCryptoMeta } from './crypto';
 
 const getVaultDir = (): string => path.join(app.getPath('documents'), 'SecVault');
 
+// ---------------------------------------------------------------------------
+// Recent vaults helpers
+// ---------------------------------------------------------------------------
+interface RecentVaultEntry { filePath: string; name: string; openedAt: string }
+const RECENT_VAULTS_MAX = 5;
+
+function getRecentVaultsPath(): string {
+  return path.join(app.getPath('userData'), 'recent-vaults.json');
+}
+
+function readRecentVaults(): RecentVaultEntry[] {
+  try {
+    return JSON.parse(fs.readFileSync(getRecentVaultsPath(), 'utf-8')) as RecentVaultEntry[];
+  } catch {
+    return [];
+  }
+}
+
+function writeRecentVaults(entries: RecentVaultEntry[]): void {
+  try {
+    fs.writeFileSync(getRecentVaultsPath(), JSON.stringify(entries, null, 2), 'utf-8');
+  } catch (e) {
+    console.error('Failed to persist recent vaults:', e);
+  }
+}
+
+export function recordRecentVault(filePath: string, name: string): void {
+  const entries = readRecentVaults().filter(e => e.filePath !== filePath);
+  entries.unshift({ filePath, name, openedAt: new Date().toISOString() });
+  writeRecentVaults(entries.slice(0, RECENT_VAULTS_MAX));
+}
+
 export function registerVaultHandlers(): void {
   ipcMain.handle('vault:getDefaultDir', () => getVaultDir());
 
@@ -117,5 +149,11 @@ export function registerVaultHandlers(): void {
     };
     fs.writeFileSync(filePath, JSON.stringify(fileData, null, 2), { encoding: 'utf-8', mode: 0o600 });
     return { updatedAt: now };
+  });
+
+  ipcMain.handle('vault:getRecentVaults', () => readRecentVaults());
+
+  ipcMain.handle('vault:addRecentVault', (_event, args: { filePath: string; name: string }) => {
+    recordRecentVault(args.filePath, args.name);
   });
 }

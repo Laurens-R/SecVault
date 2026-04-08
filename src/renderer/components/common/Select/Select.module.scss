@@ -1,0 +1,122 @@
+@use '../../../styles/variables' as *;
+
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.label {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+// ── Trigger button ────────────────────────────────────────────────────────────
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.375rem 0.5rem 0.375rem 0.625rem;
+  background-color: $color-input-bg;
+  border: 1px solid $color-card-border;
+  border-radius: 6px;
+  color: $color-text;
+  font-size: $font-size-sm;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s;
+  gap: 0.5rem;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: $color-accent;
+  }
+}
+
+.triggerOpen {
+  border-color: $color-accent;
+}
+
+.triggerContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.triggerLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $color-accent;
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: $color-text-muted;
+  transition: transform 0.15s;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: $color-accent;
+}
+
+// ── Dropdown list ─────────────────────────────────────────────────────────────
+.dropdown {
+  position: fixed;
+  z-index: 9999;
+  background-color: $color-card-bg;
+  border: 1px solid $color-card-border;
+  border-radius: 8px;
+  list-style: none;
+  padding: 0.25rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.625rem;
+  border-radius: 5px;
+  font-size: $font-size-sm;
+  color: $color-text;
+  cursor: pointer;
+  transition: background-color 0.1s;
+  user-select: none;
+
+  &:hover {
+    background-color: $color-item-hover;
+  }
+
+  // Push the check icon to the right
+  span:nth-child(2) {
+    flex: 1;
+  }
+}
+
+.optionActive {
+  color: $color-accent;
+  background-color: $color-item-active;
+}
+
+.check {
+  flex-shrink: 0;
+  color: $color-accent;
+}
