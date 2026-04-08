@@ -1,1 +1,4 @@
 export { useAppVersion } from './useAppVersion'
+export { useWindowControls } from './useWindowControls'
+export { useVaultActions } from './useVaultActions'
+export { useVaultPage } from './useVaultPage'

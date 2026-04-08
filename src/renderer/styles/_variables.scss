@@ -1,5 +1,12 @@
 // Typography
 $font-size-base: 1rem;
+$font-size-sm: 0.875rem;
+$font-size-xs: 0.75rem;
+
+// Layout
+$height-titlebar: 36px;
+$width-sidebar: 220px;
+$width-list-panel: 300px;
 
 // Colour palette
 $color-bg: #1a1a2e;
@@ -7,3 +14,20 @@ $color-text: #e0e0e0;
 $color-text-muted: #8b949e;
 $color-heading: #c9d1d9;
 $color-accent: #4f9cf9;
+$color-titlebar-bg: #13132a;
+$color-titlebar-hover: rgba(255, 255, 255, 0.08);
+$color-titlebar-close-hover: #c0392b;
+
+// Cards
+$color-card-bg: #16213e;
+$color-card-border: rgba(255, 255, 255, 0.07);
+$color-card-border-hover: rgba(79, 156, 249, 0.5);
+$color-error: #e53e3e;
+
+// Vault page panels
+$color-sidebar-bg: #13132a;
+$color-panel-bg: #0f0f23;
+$color-item-hover: rgba(255, 255, 255, 0.05);
+$color-item-active: rgba(79, 156, 249, 0.15);
+$color-divider: rgba(255, 255, 255, 0.06);
+$color-input-bg: rgba(255, 255, 255, 0.05);

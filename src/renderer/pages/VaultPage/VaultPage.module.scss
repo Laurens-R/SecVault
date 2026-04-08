@@ -1,0 +1,57 @@
+@use '../../styles/variables' as *;
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background-color: $color-bg;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  height: 44px;
+  flex-shrink: 0;
+  background-color: $color-card-bg;
+  border-bottom: 1px solid $color-divider;
+}
+
+.vaultInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $color-heading;
+}
+
+.vaultName {
+  font-size: $font-size-sm;
+  font-weight: 600;
+}
+
+.lockBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: none;
+  border: 1px solid $color-card-border;
+  border-radius: 6px;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+  padding: 0.3rem 0.75rem;
+  cursor: pointer;
+  transition: color 0.1s, border-color 0.1s;
+
+  &:hover {
+    color: $color-text;
+    border-color: $color-accent;
+  }
+}
+
+.panels {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}

@@ -1,0 +1,58 @@
+@use '../../../styles/variables' as *;
+
+.titleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: $height-titlebar;
+  background-color: $color-titlebar-bg;
+  // Makes the entire bar draggable to move the window
+  -webkit-app-region: drag;
+  user-select: none;
+  flex-shrink: 0;
+  padding: 0 0 0 12px;
+}
+
+.title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  letter-spacing: 0.03em;
+}
+
+.controls {
+  display: flex;
+  height: 100%;
+  // Buttons must opt out of the drag region
+  -webkit-app-region: no-drag;
+}
+
+.controlBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $height-titlebar;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: $color-text-muted;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease;
+
+  &:hover {
+    background-color: $color-titlebar-hover;
+    color: $color-text;
+  }
+
+  &:focus-visible {
+    outline: 1px solid $color-accent;
+    outline-offset: -1px;
+  }
+}
+
+.closeBtn {
+  &:hover {
+    background-color: $color-titlebar-close-hover;
+    color: #fff;
+  }
+}

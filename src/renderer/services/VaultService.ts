@@ -1,41 +1,35 @@
-import type { Credential, NewCredential, Vault } from '../models'
-import { VaultStatus } from '../models'
+import type { Credential, NewCredential, VaultResult } from '../models'
+import { ipcService } from './IpcService'
 
 /**
  * VaultService
  *
  * Encapsulates all vault and credential business logic.
- * Data persistence and encryption are delegated to the main process
- * via IPC (to be wired up when main-process handlers are added).
+ * Persistence and encryption are handled by the main process via IpcService.
  */
 export class VaultService {
-  private status: VaultStatus = VaultStatus.Locked
-
-  getStatus(): VaultStatus {
-    return this.status
+  getDefaultDir(): Promise<string> {
+    return ipcService.getVaultDefaultDir()
   }
 
-  /**
-   * Unlock the vault with the given master password.
-   * Replace this stub with an IPC call to the main process.
-   */
-  async unlock(_masterPassword: string): Promise<Vault> {
-    this.status = VaultStatus.Loading
-    // TODO: ipcService.unlockVault(masterPassword)
-    this.status = VaultStatus.Unlocked
-    return { id: '', name: '', credentials: [], createdAt: new Date(), updatedAt: new Date() }
+  selectSavePath(): Promise<{ filePath: string } | null> {
+    return ipcService.selectVaultSavePath()
   }
 
-  lock(): void {
-    this.status = VaultStatus.Locked
+  createVault(args: { filePath: string; password: string }): Promise<VaultResult> {
+    return ipcService.createVault(args)
   }
 
-  /**
-   * Add a new credential to the vault.
-   * Replace this stub with an IPC call to the main process.
-   */
-  async addCredential(_vaultId: string, _credential: NewCredential): Promise<Credential> {
-    // TODO: ipcService.addCredential(vaultId, credential)
+  selectOpenPath(): Promise<{ filePath: string; name: string } | null> {
+    return ipcService.selectVaultOpenPath()
+  }
+
+  openVault(args: { filePath: string; password: string }): Promise<VaultResult> {
+    return ipcService.openVault(args)
+  }
+
+  addCredential(_vaultId: string, _credential: NewCredential): Promise<Credential> {
+    // TODO: implement via ipcService
     throw new Error('Not implemented')
   }
 }
