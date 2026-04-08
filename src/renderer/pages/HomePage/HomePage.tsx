@@ -45,15 +45,15 @@ const OpenVaultIcon = (): JSX.Element => (
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
-function HomePage({ onVaultOpen }: { onVaultOpen: (v: VaultResult) => void }): JSX.Element {
+function HomePage({ onVaultOpen }: { onVaultOpen: (v: VaultResult, password: string) => void }): JSX.Element {
   const {
     startCreate, startOpen, submitPassword, cancelModal,
-    modalState, isLoading, error, defaultDir, lastResult,
+    modalState, isLoading, error, defaultDir, lastResult, lastPassword,
   } = useVaultActions()
 
   useEffect(() => {
-    if (lastResult) onVaultOpen(lastResult)
-  }, [lastResult, onVaultOpen])
+    if (lastResult && lastPassword) onVaultOpen(lastResult, lastPassword)
+  }, [lastResult, lastPassword, onVaultOpen])
 
   return (
     <div className={styles.page}>

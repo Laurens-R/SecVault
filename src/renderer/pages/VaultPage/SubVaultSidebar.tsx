@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import type { SubVault } from '../../../models'
+import type { SubVault } from '../../models'
 import styles from './SubVaultSidebar.module.scss'
 
 interface SubVaultSidebarProps {

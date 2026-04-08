@@ -14,5 +14,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   createVault: (args: { filePath: string; password: string }) => ipcRenderer.invoke('vault:create', args),
   selectVaultOpenPath: () => ipcRenderer.invoke('vault:selectOpenPath'),
   openVault: (args: { filePath: string; password: string }) => ipcRenderer.invoke('vault:open', args),
+  saveVault: (args: object) => ipcRenderer.invoke('vault:save', args),
   getVaultDefaultDir: (): Promise<string> => ipcRenderer.invoke('vault:getDefaultDir'),
+  getSettings: () => ipcRenderer.invoke('settings:get'),
+  setSettings: (key: string, value: boolean) => ipcRenderer.invoke('settings:set', key, value),
 });

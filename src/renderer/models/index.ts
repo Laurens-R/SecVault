@@ -1,5 +1,7 @@
 export type { Credential, NewCredential } from './Credential'
-export type { Vault, VaultCryptoMeta, VaultFileData, VaultResult } from './Vault'
+export type { Vault, VaultCryptoMeta, VaultFileData, VaultResult, VaultSaveArgs } from './Vault'
 export { VaultStatus } from './Vault'
 export type { SubVault } from './SubVault'
 export { DEFAULT_SUBVAULT_NAME } from './SubVault'
+export type { AppSettings } from './Settings'
+export { DEFAULT_SETTINGS } from './Settings'

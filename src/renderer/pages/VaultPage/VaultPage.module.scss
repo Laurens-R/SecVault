@@ -6,6 +6,7 @@
   height: 100%;
   overflow: hidden;
   background-color: $color-bg;
+  position: relative;
 }
 
 .header {
@@ -31,6 +32,34 @@
   font-weight: 600;
 }
 
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.saveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+.save_saving { color: $color-text-muted; }
+.save_saved  { color: #2ecc71; }
+.save_error  { color: $color-error; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
 .lockBtn {
   display: flex;
   align-items: center;
@@ -54,4 +83,89 @@
   flex: 1;
   display: flex;
   overflow: hidden;
+}
+
+// ── Lock confirmation overlay ────────────────────────────────────────────────
+.confirmOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.confirmCard {
+  background-color: $color-card-bg;
+  border: 1px solid $color-card-border;
+  border-radius: 12px;
+  padding: 2rem 2rem 1.5rem;
+  width: 380px;
+  max-width: calc(100vw - 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  color: #e67e22;
+}
+
+.confirmTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-heading;
+  text-align: center;
+}
+
+.confirmBody {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  text-align: center;
+  line-height: 1.55;
+}
+
+.confirmActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.confirmRetry {
+  background-color: $color-accent;
+  border: none;
+  border-radius: 7px;
+  color: #fff;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+
+  &:hover { opacity: 0.85; }
+}
+
+.confirmLock {
+  background: none;
+  border: 1px solid rgba(229, 62, 62, 0.4);
+  border-radius: 7px;
+  color: $color-error;
+  font-size: $font-size-sm;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+
+  &:hover { background-color: rgba(229, 62, 62, 0.1); }
+}
+
+.confirmCancel {
+  background: none;
+  border: 1px solid $color-card-border;
+  border-radius: 7px;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+
+  &:hover { border-color: $color-text; color: $color-text; }
 }

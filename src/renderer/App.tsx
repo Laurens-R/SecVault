@@ -1,20 +1,32 @@
 import { useState } from 'react'
 import { TitleBar } from './components'
-import { HomePage, VaultPage } from './pages'
+import { HomePage, VaultPage, SettingsPage } from './pages'
 import type { VaultResult } from './models'
 import styles from './App.module.scss'
 
+interface VaultSession {
+  vault: VaultResult
+  password: string
+}
+
 function App(): JSX.Element {
-  const [activeVault, setActiveVault] = useState<VaultResult | null>(null)
+  const [activeSession, setActiveSession] = useState<VaultSession | null>(null)
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   return (
     <div className={styles.layout}>
-      <TitleBar />
+      <TitleBar onSettings={() => setSettingsOpen(prev => !prev)} />
       <main className={styles.content}>
-        {activeVault ? (
-          <VaultPage vault={activeVault} onLock={() => setActiveVault(null)} />
+        {settingsOpen ? (
+          <SettingsPage onBack={() => setSettingsOpen(false)} />
+        ) : activeSession ? (
+          <VaultPage
+            vault={activeSession.vault}
+            password={activeSession.password}
+            onLock={() => setActiveSession(null)}
+          />
         ) : (
-          <HomePage onVaultOpen={setActiveVault} />
+          <HomePage onVaultOpen={(v, p) => setActiveSession({ vault: v, password: p })} />
         )}
       </main>
     </div>

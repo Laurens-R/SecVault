@@ -17,6 +17,7 @@ interface UseVaultActionsResult {
   error: string | null
   defaultDir: string
   lastResult: VaultResult | null
+  lastPassword: string
 }
 
 export function useVaultActions(): UseVaultActionsResult {
@@ -25,6 +26,7 @@ export function useVaultActions(): UseVaultActionsResult {
   const [error, setError] = useState<string | null>(null)
   const [defaultDir, setDefaultDir] = useState('')
   const [lastResult, setLastResult] = useState<VaultResult | null>(null)
+  const [lastPassword, setLastPassword] = useState('')
 
   useEffect(() => {
     vaultService.getDefaultDir().then(setDefaultDir).catch(console.error)
@@ -69,10 +71,12 @@ export function useVaultActions(): UseVaultActionsResult {
       if (modalState.type === 'create') {
         const result = await vaultService.createVault({ filePath: modalState.filePath, password })
         setLastResult(result)
+        setLastPassword(password)
         setModalState(null)
       } else {
         const result = await vaultService.openVault({ filePath: modalState.filePath, password })
         setLastResult(result)
+        setLastPassword(password)
         setModalState(null)
       }
     } catch (err) {
@@ -88,5 +92,5 @@ export function useVaultActions(): UseVaultActionsResult {
     setError(null)
   }, [])
 
-  return { startCreate, startOpen, submitPassword, cancelModal, modalState, isLoading, error, defaultDir, lastResult }
+  return { startCreate, startOpen, submitPassword, cancelModal, modalState, isLoading, error, defaultDir, lastResult, lastPassword }
 }

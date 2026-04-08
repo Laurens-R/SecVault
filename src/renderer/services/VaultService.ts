@@ -1,4 +1,4 @@
-import type { Credential, NewCredential, VaultResult } from '../models'
+import type { Credential, NewCredential, VaultResult, VaultSaveArgs } from '../models'
 import { ipcService } from './IpcService'
 
 /**
@@ -26,6 +26,10 @@ export class VaultService {
 
   openVault(args: { filePath: string; password: string }): Promise<VaultResult> {
     return ipcService.openVault(args)
+  }
+
+  saveVault(args: VaultSaveArgs): Promise<{ updatedAt: string }> {
+    return ipcService.saveVault(args)
   }
 
   addCredential(_vaultId: string, _credential: NewCredential): Promise<Credential> {

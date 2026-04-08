@@ -1,4 +1,5 @@
 import type { Credential } from './Credential'
+import type { SubVault } from './SubVault'
 
 export interface Vault {
   id: string
@@ -48,4 +49,15 @@ export interface VaultResult {
   createdAt: string
   updatedAt: string
   credentials: Credential[]
+  subVaults?: SubVault[]
+}
+
+/** Arguments for re-encrypting and saving an open vault. */
+export interface VaultSaveArgs {
+  filePath: string
+  password: string
+  vaultId: string
+  vaultName: string
+  createdAt: string
+  subVaults: SubVault[]
 }

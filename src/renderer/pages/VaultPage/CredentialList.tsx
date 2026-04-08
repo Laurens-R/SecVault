@@ -1,4 +1,4 @@
-import type { Credential } from '../../../models'
+import type { Credential } from '../../models'
 import styles from './CredentialList.module.scss'
 
 interface CredentialListProps {

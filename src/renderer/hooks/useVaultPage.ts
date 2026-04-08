@@ -27,10 +27,14 @@ interface UseVaultPageResult {
 }
 
 function buildInitialSubVaults(result: VaultResult): SubVault[] {
-  const defaultId = randomUUID()
+  // v1.1+ files store sub-vaults directly in the payload
+  if (result.subVaults && result.subVaults.length > 0) {
+    return result.subVaults
+  }
+  // v1.0 files have a flat credentials list — wrap in default sub-vault
   return [
     {
-      id: defaultId,
+      id: randomUUID(),
       name: DEFAULT_SUBVAULT_NAME,
       credentials: result.credentials,
     },
