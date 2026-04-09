@@ -30,11 +30,12 @@
   border: none;
   color: $color-text-muted;
   font-size: $font-size-sm;
+  font-family: inherit;
   cursor: pointer;
-  border-radius: 6px;
-  padding: 0.35rem 0.5rem;
+  border-radius: 7px;
+  padding: 0.4rem 0.6rem;
   width: 100%;
-  transition: color 0.1s, background-color 0.1s;
+  transition: color 0.15s, background-color 0.15s;
 
   &:hover {
     color: $color-text;
@@ -43,7 +44,7 @@
 }
 
 .nav {
-  padding: 0.5rem 0;
+  padding: 0.5rem 0.5rem;
   flex: 1;
 }
 
@@ -55,20 +56,24 @@
   padding: 0.55rem 0.875rem;
   background: none;
   border: none;
+  border-radius: 8px;
   color: $color-text;
   font-size: $font-size-sm;
+  font-family: inherit;
   cursor: pointer;
   text-align: left;
-  transition: background-color 0.1s;
+  transition: background-color 0.15s, color 0.15s;
 
   &:hover {
     background-color: $color-item-hover;
+    color: $color-text;
   }
 }
 
 .tabActive {
   background-color: $color-item-active;
   color: $color-accent;
+  font-weight: 600;
 }
 
 // ── Content area ──────────────────────────────────────────────────────────────
@@ -84,6 +89,7 @@
   font-weight: 700;
   color: $color-heading;
   margin-bottom: 2rem;
+  letter-spacing: -0.01em;
 }
 
 // ── Setting groups ────────────────────────────────────────────────────────────
@@ -103,8 +109,9 @@
 .groupItems {
   background-color: $color-card-bg;
   border: 1px solid $color-card-border;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: $shadow-sm;
 }
 
 // ── Setting row ───────────────────────────────────────────────────────────────
@@ -138,18 +145,19 @@
 .rowDesc {
   font-size: $font-size-sm;
   color: $color-text-muted;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 
 .rowControl {
   flex-shrink: 0;
+  min-width: 160px;
 }
 
 // ── Toggle switch ─────────────────────────────────────────────────────────────
 .toggle {
   position: relative;
   display: inline-flex;
-  width: 42px;
+  width: 44px;
   height: 24px;
   cursor: pointer;
   flex-shrink: 0;
@@ -167,10 +175,10 @@
   height: 0;
 
   &:checked + .toggleTrack {
-    background-color: $color-accent;
+    background: $color-accent-gradient;
 
     &::after {
-      transform: translateX(18px);
+      transform: translateX(20px);
       background-color: #fff;
     }
   }
@@ -185,18 +193,23 @@
   position: absolute;
   inset: 0;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.12);
-  transition: background-color 0.2s;
+  background-color: $color-input-bg;
+  border: 1px solid $color-card-border;
+  transition: background-color 0.2s, border-color 0.2s;
 
   &::after {
     content: '';
     position: absolute;
     width: 18px;
     height: 18px;
-    top: 3px;
-    left: 3px;
+    top: 2px;
+    left: 2px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.45);
-    transition: transform 0.2s, background-color 0.2s;
+    background-color: $color-text-muted;
+    transition: transform 0.2s ease, background-color 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 }
+
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────

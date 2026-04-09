@@ -8,6 +8,7 @@
   height: 100%;
   gap: 2.5rem;
   padding: 2rem;
+  background-color: $color-bg;
 }
 
 // Hero
@@ -16,22 +17,27 @@
 }
 
 .title {
-  font-size: 2.5rem;
+  font-size: 2.75rem;
   font-weight: 700;
-  color: $color-heading;
-  margin-bottom: 0.4rem;
+  background: $color-accent-gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
   font-size: $font-size-base;
   color: $color-text-muted;
+  font-weight: 400;
 }
 
 // Action cards
 .actions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
+  gap: 1.125rem;
   width: 100%;
   max-width: 520px;
 }
@@ -44,14 +50,16 @@
   padding: 2rem 1.5rem;
   background-color: $color-card-bg;
   border: 1px solid $color-card-border;
-  border-radius: 10px;
+  border-radius: 14px;
   cursor: pointer;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   color: $color-text;
+  box-shadow: $shadow-sm;
 
   &:hover:not(:disabled) {
     border-color: $color-card-border-hover;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(99, 102, 241, 0.2);
   }
 
   &:focus-visible {
@@ -60,7 +68,7 @@
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
   }
 }
@@ -79,12 +87,14 @@
   font-size: $font-size-sm;
   color: $color-text-muted;
   text-align: center;
+  line-height: 1.5;
 }
 
 // Error
 .error {
   font-size: $font-size-sm;
   color: $color-error;
+  font-weight: 500;
 }
 
 // Storage path hint
@@ -107,12 +117,12 @@
 }
 
 .recentTitle {
-  font-size: $font-size-sm;
+  font-size: $font-size-xs;
   font-weight: 600;
   color: $color-text-muted;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.625rem;
 }
 
 .recentList {
@@ -121,7 +131,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.3rem;
 }
 
 .recentItem {
@@ -132,14 +142,14 @@
   column-gap: 0.6rem;
   row-gap: 0.1rem;
   align-items: center;
-  padding: 0.55rem 0.75rem;
+  padding: 0.625rem 0.875rem;
   background-color: $color-card-bg;
   border: 1px solid $color-card-border;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   text-align: left;
   color: $color-text;
-  transition: border-color 0.15s ease, background-color 0.15s ease;
+  transition: border-color 0.2s ease, background-color 0.15s ease, box-shadow 0.2s ease;
 
   svg {
     grid-row: 1 / 3;
@@ -150,6 +160,7 @@
   &:hover:not(:disabled) {
     border-color: $color-card-border-hover;
     background-color: $color-item-hover;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.12);
   }
 
   &:focus-visible {
@@ -158,7 +169,7 @@
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.45;
     cursor: not-allowed;
   }
 }
@@ -180,3 +191,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+// Hero

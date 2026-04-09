@@ -33,7 +33,7 @@ function CredentialDetail({ credential, isNew, onSave, onDelete, onCancel }: Cre
       setForm({
         label: credential.label,
         username: credential.username,
-        password: '',        // never pre-fill decrypted password
+        password: credential.encryptedPassword,
         url: credential.url ?? '',
         notes: credential.notes ?? '',
       })
@@ -130,7 +130,6 @@ function CredentialDetail({ credential, isNew, onSave, onDelete, onCancel }: Cre
               type={showPassword ? 'text' : 'password'}
               value={form.password}
               onChange={set('password')}
-              placeholder={isNew ? '' : 'Leave blank to keep current'}
               autoComplete="new-password"
             />
             <button

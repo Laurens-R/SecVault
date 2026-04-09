@@ -56,7 +56,7 @@ export class IpcService {
     return window.electronAPI.getSettings()
   }
 
-  setSettings(key: keyof AppSettings, value: boolean): Promise<void> {
+  setSettings(key: keyof AppSettings, value: boolean | string): Promise<void> {
     return window.electronAPI.setSettings(key, value)
   }
 

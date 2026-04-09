@@ -4,11 +4,11 @@ import { getSettings, updateSettings, persistSettings, type AppSettings } from '
 export function registerSettingsHandlers(): void {
   ipcMain.handle('settings:get', () => ({ ...getSettings() }));
 
-  ipcMain.handle('settings:set', (_event, key: string, value: boolean) => {
+  ipcMain.handle('settings:set', (_event, key: string, value: boolean | string) => {
     updateSettings(key as keyof AppSettings, value);
     persistSettings();
     if (key === 'openAtLogin') {
-      app.setLoginItemSettings({ openAtLogin: value });
+      app.setLoginItemSettings({ openAtLogin: value as boolean });
     }
   });
 }

@@ -63,11 +63,12 @@ function PasswordModal({ mode, vaultName, isLoading, error, onSubmit, onCancel }
       aria-labelledby="sv-modal-title"
     >
       <div className={styles.modal}>
-        <h2 id="sv-modal-title" className={styles.title}>
-          {mode === 'create' ? 'Create Vault Password' : 'Unlock Vault'}
-        </h2>
-
-        <p className={styles.vaultName}>{vaultName}</p>
+        <div className={styles.modalHeader}>
+          <h2 id="sv-modal-title" className={styles.title}>
+            {mode === 'create' ? 'Create Vault Password' : 'Unlock Vault'}
+          </h2>
+          <p className={styles.vaultName}>{vaultName}</p>
+        </div>
 
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <div className={styles.field}>

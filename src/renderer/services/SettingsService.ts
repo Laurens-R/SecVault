@@ -6,7 +6,7 @@ export class SettingsService {
     return ipcService.getSettings()
   }
 
-  set(key: keyof AppSettings, value: boolean): Promise<void> {
+  set(key: keyof AppSettings, value: boolean | string): Promise<void> {
     return ipcService.setSettings(key, value)
   }
 }

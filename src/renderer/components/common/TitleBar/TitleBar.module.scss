@@ -6,24 +6,24 @@
   justify-content: space-between;
   height: $height-titlebar;
   background-color: $color-titlebar-bg;
-  // Makes the entire bar draggable to move the window
+  border-bottom: 1px solid $color-divider;
   -webkit-app-region: drag;
   user-select: none;
   flex-shrink: 0;
-  padding: 0 0 0 12px;
+  padding: 0 0 0 14px;
 }
 
 .title {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: $color-text-muted;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .controls {
   display: flex;
   height: 100%;
-  // Buttons must opt out of the drag region
   -webkit-app-region: no-drag;
 }
 
@@ -37,7 +37,7 @@
   border: none;
   color: $color-text-muted;
   cursor: pointer;
-  transition: background-color 0.1s ease, color 0.1s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 
   &:hover {
     background-color: $color-titlebar-hover;
@@ -58,7 +58,6 @@
 }
 
 .settingsBtn {
-  // uses controlBtn base, active state highlights accent
   &:hover {
     color: $color-accent;
     background-color: $color-titlebar-hover;
@@ -68,8 +67,9 @@
 .controlSeparator {
   width: 1px;
   height: 14px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: $color-divider;
   margin: 0 4px;
   align-self: center;
   flex-shrink: 0;
 }
+

@@ -5,9 +5,10 @@ import path from 'path';
 export interface AppSettings {
   openAtLogin: boolean;
   minimizeToTray: boolean;
+  theme: 'dark' | 'light' | 'system';
 }
 
-const DEFAULT_SETTINGS: AppSettings = { openAtLogin: false, minimizeToTray: false };
+const DEFAULT_SETTINGS: AppSettings = { openAtLogin: false, minimizeToTray: false, theme: 'dark' };
 
 // Mutable in-place — callers holding a reference see updates immediately.
 const state: AppSettings = { ...DEFAULT_SETTINGS };
@@ -17,8 +18,8 @@ export function getSettings(): AppSettings {
   return state;
 }
 
-export function updateSettings(key: keyof AppSettings, value: boolean): void {
-  state[key] = value;
+export function updateSettings(key: keyof AppSettings, value: boolean | string): void {
+  (state as unknown as Record<string, unknown>)[key] = value;
 }
 
 export function loadSettings(): void {

@@ -8,26 +8,34 @@ $height-titlebar: 36px;
 $width-sidebar: 220px;
 $width-list-panel: 300px;
 
-// Colour palette
-$color-bg: #1a1a2e;
-$color-text: #e0e0e0;
-$color-text-muted: #8b949e;
-$color-heading: #c9d1d9;
-$color-accent: #4f9cf9;
-$color-titlebar-bg: #13132a;
-$color-titlebar-hover: rgba(255, 255, 255, 0.08);
-$color-titlebar-close-hover: #c0392b;
+// All colour tokens point to CSS custom properties defined in globals.scss.
+// This means every component SCSS using $color-* automatically picks up
+// the active theme (dark / light) without any changes to those files.
 
-// Cards
-$color-card-bg: #16213e;
-$color-card-border: rgba(255, 255, 255, 0.07);
-$color-card-border-hover: rgba(79, 156, 249, 0.5);
-$color-error: #e53e3e;
+$color-bg:                var(--color-bg);
+$color-text:              var(--color-text);
+$color-text-muted:        var(--color-text-muted);
+$color-heading:           var(--color-heading);
+$color-accent:            var(--color-accent);
+$color-accent-gradient:   var(--color-accent-gradient);
+$color-accent-hover:      var(--color-accent-hover);
+$color-titlebar-bg:       var(--color-titlebar-bg);
+$color-titlebar-hover:    var(--color-titlebar-hover);
+$color-titlebar-close-hover: var(--color-titlebar-close-hover);
 
-// Vault page panels
-$color-sidebar-bg: #13132a;
-$color-panel-bg: #0f0f23;
-$color-item-hover: rgba(255, 255, 255, 0.05);
-$color-item-active: rgba(79, 156, 249, 0.15);
-$color-divider: rgba(255, 255, 255, 0.06);
-$color-input-bg: rgba(255, 255, 255, 0.05);
+$color-card-bg:           var(--color-card-bg);
+$color-card-border:       var(--color-card-border);
+$color-card-border-hover: var(--color-card-border-hover);
+$color-error:             var(--color-error);
+
+$color-sidebar-bg:        var(--color-sidebar-bg);
+$color-panel-bg:          var(--color-panel-bg);
+$color-item-hover:        var(--color-item-hover);
+$color-item-active:       var(--color-item-active);
+$color-divider:           var(--color-divider);
+$color-input-bg:          var(--color-input-bg);
+
+$shadow-sm:  var(--shadow-sm);
+$shadow-md:  var(--shadow-md);
+$shadow-lg:  var(--shadow-lg);
+

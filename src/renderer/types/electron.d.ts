@@ -17,7 +17,7 @@ declare global {
       saveVault: (args: VaultSaveArgs) => Promise<{ updatedAt: string }>
       getVaultDefaultDir: () => Promise<string>
       getSettings: () => Promise<AppSettings>
-      setSettings: (key: string, value: boolean) => Promise<void>
+      setSettings: (key: string, value: boolean | string) => Promise<void>
       getRecentVaults: () => Promise<RecentVault[]>
       addRecentVault: (args: { filePath: string; name: string }) => Promise<void>
     }

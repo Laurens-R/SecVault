@@ -10,6 +10,7 @@
 .label {
   font-size: $font-size-sm;
   color: $color-text-muted;
+  font-weight: 500;
 }
 
 // ── Trigger button ────────────────────────────────────────────────────────────
@@ -18,30 +19,32 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.375rem 0.5rem 0.375rem 0.625rem;
+  padding: 0.45rem 0.625rem 0.45rem 0.75rem;
   background-color: $color-input-bg;
   border: 1px solid $color-card-border;
-  border-radius: 6px;
+  border-radius: 8px;
   color: $color-text;
   font-size: $font-size-sm;
   font-family: inherit;
   cursor: pointer;
   text-align: left;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
   gap: 0.5rem;
 
   &:hover {
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: $color-accent-hover;
   }
 
   &:focus-visible {
     outline: none;
     border-color: $color-accent;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
   }
 }
 
 .triggerOpen {
   border-color: $color-accent;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
 .triggerContent {
@@ -68,7 +71,7 @@
 .chevron {
   flex-shrink: 0;
   color: $color-text-muted;
-  transition: transform 0.15s;
+  transition: transform 0.2s ease;
 }
 
 .chevronOpen {
@@ -82,19 +85,31 @@
   z-index: 9999;
   background-color: $color-card-bg;
   border: 1px solid $color-card-border;
-  border-radius: 8px;
+  border-radius: 10px;
   list-style: none;
-  padding: 0.25rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  padding: 0.3rem;
+  box-shadow: $shadow-lg;
   overflow: hidden;
+  animation: dropIn 0.12s ease;
+}
+
+@keyframes dropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .option {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.45rem 0.625rem;
-  border-radius: 5px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 7px;
   font-size: $font-size-sm;
   color: $color-text;
   cursor: pointer;
@@ -105,7 +120,6 @@
     background-color: $color-item-hover;
   }
 
-  // Push the check icon to the right
   span:nth-child(2) {
     flex: 1;
   }
@@ -114,9 +128,11 @@
 .optionActive {
   color: $color-accent;
   background-color: $color-item-active;
+  font-weight: 500;
 }
 
 .check {
   flex-shrink: 0;
   color: $color-accent;
 }
+

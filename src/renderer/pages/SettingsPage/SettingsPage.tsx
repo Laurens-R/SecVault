@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useSettings } from '../../hooks'
 import type { AppSettings } from '../../models'
+import { Select } from '../../components'
 import styles from './SettingsPage.module.scss'
 
 type SettingsTab = 'general'
@@ -59,10 +60,30 @@ function SettingsPage({ onBack }: SettingsPageProps): JSX.Element {
 function GeneralTab({ settings, loading, onUpdate }: {
   settings: AppSettings
   loading: boolean
-  onUpdate: (key: keyof AppSettings, value: boolean) => Promise<void>
+  onUpdate: (key: keyof AppSettings, value: boolean | string) => Promise<void>
 }): JSX.Element {
+  const themeOptions: { value: string; label: string }[] = [
+    { value: 'dark',   label: 'Dark' },
+    { value: 'light',  label: 'Light' },
+    { value: 'system', label: 'System (auto)' },
+  ]
+
   return (
     <>
+      <SettingGroup title="Appearance">
+        <SettingRow
+          title="Theme"
+          description="Choose between light, dark, or follow your system preference."
+          id="select-theme"
+        >
+          <Select
+            options={themeOptions}
+            value={settings.theme}
+            onChange={v => void onUpdate('theme', v)}
+          />
+        </SettingRow>
+      </SettingGroup>
+
       <SettingGroup title="Startup">
         <SettingRow
           title="Open SecVault at login"
